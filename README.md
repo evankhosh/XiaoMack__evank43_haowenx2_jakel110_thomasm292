@@ -1,4 +1,4 @@
-# ProjectName by XiaoMack
+# Quizliu by XiaoMack
 
 ## Roster
 - Evan Khosh: PM
@@ -7,7 +7,7 @@
 - Jake Liu:
 
 ## Description
-- 
+- An online platform where users can create and review flashcards (simillar to Quizlet). Users will be able to build and edit their flashcards and review the flashcards of others.
 
 ## Install Guide
 **1) Clone the repo**
@@ -18,3 +18,4 @@
 **1) From wherever you had cloned the repo, run:**
 
 **2) Launch the app**
+
