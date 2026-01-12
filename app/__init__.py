@@ -11,6 +11,13 @@ app = Flask(__name__)
 app.secret_key = "key"
 DB_FILE = "data.db"
 
+db = sqlite3.connect(DB_FILE)
+c = db.cursor()
+
+
+db.commit()
+db.close()
+
 @app.route('/')
 def root():
     if 'username' not in session:
