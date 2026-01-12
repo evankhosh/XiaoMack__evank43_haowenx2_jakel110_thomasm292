@@ -18,3 +18,8 @@ INITIAL DD REVIEW
           compliments on the overall idea
 * NEW CHANGES:
     - 
+
+jakeL -- 2026-1-12 17:34
+INIT FILE SETUP
+* create routing functions
+* home page headings
