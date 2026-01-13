@@ -4,7 +4,7 @@
   font-size: 20px;
   align-items: center;
   list-style-type: none;
-  background-color: #add8e6; 
+  background-color: #add8e6;
   align-self: center;
 }
 
@@ -18,4 +18,21 @@
 .nav a {
   color: #1c1a1a;
   text-decoration: none;
+}
+
+.quiz-card {
+    border-radius: 14px;
+    overflow: hidden;
+    padding: 20px;
+    background-color: #add8e6;
+}
+
+.quiz-img{
+    height: 160px;
+    object-fit: cover;
+    width: 100%;
+}
+
+.card-body{
+    padding: 20px;
 }

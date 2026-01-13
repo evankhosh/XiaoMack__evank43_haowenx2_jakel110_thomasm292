@@ -30,4 +30,6 @@ thomasM -- 2026-1-12 22:38
 - added registration and login html page
 - added to elvenlog
 
+thomasM -- 2026-1-13 11:46
+- added register, login, and logout functions to flask app
 
