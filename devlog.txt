@@ -23,3 +23,8 @@ jakeL -- 2026-1-12 17:34
 INIT FILE SETUP
 * create routing functions
 * home page headings
+
+thomasM -- 2026-1-12 22:38
+- added registration and login html page
+- added to elvenlog
+
