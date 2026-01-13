@@ -1,10 +1,10 @@
 # Quizliu by XiaoMack
 
 ## Roster
-- Evan Khosh: PM
-- Thomas Mackey:
-- Haowen Xiao:
-- Jake Liu:
+- Evan Khosh, PM
+- Thomas Mackey
+- Haowen Xiao
+- Jake Liu
 
 ## Description
 - An online platform where users can create and review flashcards (simillar to Quizlet). Users will be able to build and edit their flashcards and review the flashcards of others.
@@ -21,4 +21,5 @@
 ## Launch Codes:
 In the terminal, access the project root directory (app/) and run the following commands:
 - `$ python __init__.py`
+
 
