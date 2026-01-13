@@ -19,3 +19,22 @@
   color: #1c1a1a;
   text-decoration: none;
 }
+
+.quiz-card {
+    border-radius: 14px;
+    overflow: hidden;
+    padding: 20px;
+    background-color: #add8e6;
+}
+
+.quiz-img{
+    height: 160px;
+    object-fit: cover;
+    width: 100%;
+}
+
+.card-body{
+    padding: 20px;
+}
+
+

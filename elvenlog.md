@@ -1,6 +1,9 @@
-Input: Generate some project ideas using javascript that utilize the sql db
+## Chat 1 (Copilot GPT-5 mini)
 
-Output: Copilot said: Below are 10 JavaScript project ideas that
+### Input: Generate some project ideas using javascript that utilize the sql db
+
+### Output:
+Below are 10 JavaScript project ideas that
 
 Below are 10 JavaScript project ideas that make meaningful use of a SQL database. For each idea I include a short description, core features, suggested JS tech stack, an example DB schema (CREATE TABLE style), key API endpoints, UI components, difficulty and a few stretch goals. Pick any you like and I can scaffold the backend (Express/Prisma or Sequelize), provide migrations/seeds, or start the frontend.
 
@@ -149,9 +152,10 @@ Next steps
 
 Which idea should I scaffold first, and which tech choices do you prefer?
 
-Input: Have the db be used less and use flask
+### Input: Have the db be used less and use flask
 
-Output: Great — I’ll assume you want projects that still use JavaScript on the frontend but rely on a Flask backend and deliberately minimize SQL usage (use it only where helpful: occasional persistence, backups, analytics, or small lookup tables). Below are 6 compact project ideas (derived from the earlier list) that use the DB sparingly, plus recommended stacks, tiny schemas, and what I can scaffold next.
+### Output:
+Great — I’ll assume you want projects that still use JavaScript on the frontend but rely on a Flask backend and deliberately minimize SQL usage (use it only where helpful: occasional persistence, backups, analytics, or small lookup tables). Below are 6 compact project ideas (derived from the earlier list) that use the DB sparingly, plus recommended stacks, tiny schemas, and what I can scaffold next.
 
 High-level patterns to use less DB
 
@@ -239,9 +243,10 @@ Questions / choices for the next step
 
 Pick one idea and answer the questions and I’ll scaffold the Flask backend + minimal frontend example (or just the backend) with the DB used sparingly as specified.
 
-Input: The project is for 4 beginners to JavaScript. Keep db use (SQLite) to a minimum, for example just to store user login info. Try to focus the majority of the project on the frontend work with JS and make the project fun.
+### Input: The project is for 4 beginners to JavaScript. Keep db use (SQLite) to a minimum, for example just to store user login info. Try to focus the majority of the project on the frontend work with JS and make the project fun.
 
-Output: Great — here’s a complete, beginner-friendly project plan plus a minimal scaffold you can run immediately. Summary:
+### Output:
+Great — here’s a complete, beginner-friendly project plan plus a minimal scaffold you can run immediately. Summary:
 
     Project: Collaborative Pixel Studio (local-first pixel art board)
     Frontend focus: HTML/CSS/vanilla JavaScript (beginners-friendly) — most work is frontend UI, canvas, tooling, saving/exporting/importing.
@@ -361,7 +366,7 @@ frontend/main.js
 
 README.md
 
-# Pixel Studio (Local-first Pixel Art) — Beginner JS Project
+Pixel Studio (Local-first Pixel Art) — Beginner JS Project
 
 Overview
 - A fun pixel art studio where the bulk of work is frontend JavaScript (drawing tools, UI, saving).
@@ -382,9 +387,10 @@ If you want, I can:
 
 Which next step do you want?
 
-Input: Give a list of ideas for projects based on my specifications. (around 10 ideas)
+### Input: Give a list of ideas for projects based on my specifications. (around 10 ideas)
 
-Output: Great — here are ~10 beginner-friendly, fun project ideas that match your constraints: frontend-heavy (vanilla JS or simple frameworks), minimal SQLite use (only for user login/auth), local-first storage (localStorage / IndexedDB / files), and designed for a team of 4 beginners. Each idea includes a short description, what the DB is used for, core frontend learning areas, team-role suggestions, difficulty, time estimate, and optional stretch goals.
+### Output:
+Great — here are ~10 beginner-friendly, fun project ideas that match your constraints: frontend-heavy (vanilla JS or simple frameworks), minimal SQLite use (only for user login/auth), local-first storage (localStorage / IndexedDB / files), and designed for a team of 4 beginners. Each idea includes a short description, what the DB is used for, core frontend learning areas, team-role suggestions, difficulty, time estimate, and optional stretch goals.
 
     Collaborative Pixel Studio (local-first)
 
@@ -601,3 +607,264 @@ If you want, I can:
     Or generate boarding checklists and beginner-friendly TODOs for each role.
 
 Which 2–3 ideas stand out to you? I’ll expand one into a detailed 4-day plan with exact tasks per team member.
+
+## Chat 2 (ChatGPT GPT-5.2 Instant)
+
+### Input: Create a design doc for my computer science project. Include all the sections in the current design doc, but refine the content and improve the drawings. (pdf of DD draft 1 attached)
+
+### Output:
+Quizliu – Design Document (Refined)
+
+Project: P02 – Makers Makin' It, Act I
+Team (XiaoMack): Evan Khosh, Jake Liu, Thomas Mackey, Haowen Xiao
+Target Ship Date: January 16, 2026
+
+1. Project Summary
+
+Quizliu is a micro‑flashcard web application that allows users to create, share, and study small flashcard decks. Users can review content through three interactive modes:
+
+Flashcard review (flip-style learning)
+
+Matching pairs game
+
+Quiz mode (question/answer assessment)
+
+The goal of the project is to provide a lightweight, user-friendly study tool that encourages repetition, engagement, and friendly competition through points.
+
+2. Core Features
+
+User authentication (register, login, profile)
+
+Create and manage flashcard decks
+
+View and study decks created by yourself or others
+
+Three study/game modes: Flashcards, Match Pairs, Quiz
+
+Point system to reward activity and progress
+
+3. Technology Stack
+Backend
+
+Language: Python
+
+Framework: Flask
+
+Database: SQLite3
+
+Frontend
+
+HTML for structure
+
+CSS (Bootstrap) for layout and styling
+
+JavaScript for interactivity and game logic
+
+APIs
+
+None (internal Flask routes only)
+
+4. Program Components
+Backend Components
+
+sqlite3 – persistent data storage
+
+user_info table – stores users and progress
+
+Flask app (__init__.py) – routing, authentication, database access
+
+Frontend Pages (HTML)
+
+login.html
+
+register.html
+
+profile.html
+
+home.html
+
+create.html
+
+flashcards.html
+
+match_pair.html
+
+quiz.html
+
+JavaScript Files
+
+flashcards.js – flashcard flip and navigation logic
+
+match_pairs.js – matching game logic
+
+quiz.js – quiz scoring and question handling
+
+5. Component Explanations
+Database Access
+
+The SQLite3 database is accessed by multiple frontend pages through Flask routes:
+
+register.html – inserts new user records
+
+login.html – validates user credentials
+
+profile.html – displays user stats and decks
+
+home.html – shows dashboard and available flashcards
+
+create.html – saves new flashcard sets
+
+Game Interaction Flow
+
+Each game page uses a dedicated JavaScript file to control interactivity:
+
+flashcards.html ↔ flashcards.js
+
+match_pair.html ↔ match_pairs.js
+
+quiz.html ↔ quiz.js
+
+Flask supplies the data, JavaScript handles gameplay, and HTML/CSS renders the UI.
+
+6. Component Map (UML Diagram)
+@startuml
+
+
+package "Frontend (HTML)" {
+  Login
+  Register
+  Profile
+  Home
+  Create
+  FlashcardsPage
+  MatchPairPage
+  QuizPage
+}
+
+
+package "JavaScript Logic" {
+  flashcardsJS
+  matchPairsJS
+  quizJS
+}
+
+
+package "Backend" {
+  FlaskApp
+}
+
+
+package "Database" {
+  SQLiteDB
+}
+
+
+Register --> FlaskApp : submit user data
+Login --> FlaskApp : authenticate user
+Profile --> FlaskApp : request user info
+Home --> FlaskApp : load decks
+Create --> FlaskApp : save flashcards
+
+
+FlashcardsPage --> flashcardsJS : handle card flips
+MatchPairPage --> matchPairsJS : handle matching logic
+QuizPage --> quizJS : handle questions
+
+
+flashcardsJS --> FlaskApp : fetch flashcards
+matchPairsJS --> FlaskApp : fetch flashcards
+quizJS --> FlaskApp : fetch flashcards
+
+
+FlaskApp --> SQLiteDB : read/write user & deck data
+
+
+@enduml
+7. Database Organization
+USER_INFO Table
+Field	Type	Constraints
+username	TEXT	PRIMARY KEY, NOT NULL
+password	TEXT	NOT NULL
+points	INTEGER	NOT NULL
+flashcards	TEXT	(serialized data)
+FLASHCARDS Table
+Field	Type	Constraints
+title	TEXT	NOT NULL
+creator	TEXT	NOT NULL
+card	INTEGER	NOT NULL
+front	TEXT	NOT NULL
+back	TEXT	NOT NULL
+8. Site Map (UML Diagram)
+@startuml
+
+
+Register --> Login
+Login --> Home
+
+
+Home --> Profile
+Home --> Create
+Home --> Flashcards
+
+
+Flashcards --> Review
+Flashcards --> MatchGame
+Flashcards --> Quiz
+
+
+@enduml
+9. Team Roles & Responsibilities
+
+Evan Khosh (PM): Database design, Flask backend, project coordination
+
+Jake Liu: Home page, Create page, Flashcards UI
+
+Thomas Mackey: Registration, Login, Profile pages
+
+Haowen Xiao: CSS styling, Match Pair game, game polish
+
+10. Front-End Framework (FEF)
+
+Bootstrap is used for:
+
+Responsive layout
+
+Consistent styling
+
+Faster UI development
+
+11. Future Improvements (Optional)
+
+Deck sharing and favoriting
+
+Public/private deck visibility
+
+Timed quizzes and leaderboards
+
+Mobile-first UI refinements
+
+End of Design Document
+
+I’ve created a fully refined design document in the canvas that:
+
+Keeps all original sections from your current design doc
+
+Improves clarity, structure, and technical precision
+
+Rewrites descriptions to sound more professional and CS-appropriate
+
+Replaces rough diagrams with clean, readable ASCII architecture and site-map drawings
+
+Uses consistent formatting, tables, and headings suitable for submission or presentation
+
+You can now:
+
+Copy this directly into Google Docs or submit it as-is
+
+Ask me to simplify it, make it more technical, or shorten it for a rubric
+
+Request visual diagrams (UML / ER diagrams) if your teacher wants graphics instead of ASCII
+
+Ask me to align it to a specific grading rubric or teacher comments
+
+If you want, I can also generate a one-page executive summary or a presentation version of this doc.

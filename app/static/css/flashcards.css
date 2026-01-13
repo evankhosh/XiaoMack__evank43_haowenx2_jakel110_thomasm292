@@ -4,7 +4,7 @@
   font-size: 20px;
   align-items: center;
   list-style-type: none;
-  background-color: #1c1a1a;
+  background-color: #add8e6; 
   align-self: center;
 }
 
@@ -16,6 +16,6 @@
 }
 
 .nav a {
-  color: #EDEDE9;
+  color: #1c1a1a;
   text-decoration: none;
 }

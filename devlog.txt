@@ -1,0 +1,33 @@
+XiaoMack DEVLOG
+Evan Khosh, Thomas Mackey, Haowen Xiao, Jake Liu
+P02: Makers Makin' It, Act I
+----------------------------
+
+* Each entry should begin with the following format: firstL -- TIMESTAMP ( e.g.: topherM -- 1999-12-31 23:59 )
+* Most recent entry at the bottom, separated from previous with a newline
+
+evanK -- 2026-1-12 23:04
+INITIAL DD REVIEW
+* SUMMARY OF FEEDBACK:
+    - Negatives included:
+          duplicate titles need to be handled
+          tables shouldn't overflow off pages on the DD
+          explain features of FEF that will be used
+    - Positives included: 
+          nice organization and site map
+          compliments on the overall idea
+* NEW CHANGES:
+    - used crappy bot elves to rewrite design doc with criticism in mind
+    - added more in-depth explanations
+    - formatted tables to not overflow off of pages
+
+jakeL -- 2026-1-12 17:34
+INIT FILE SETUP
+* create routing functions
+* home page headings
+
+thomasM -- 2026-1-12 22:38
+- added registration and login html page
+- added to elvenlog
+
+
