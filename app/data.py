@@ -59,15 +59,14 @@ def get_points(username):
 
 
 def get_flashcards(username):
-    # blog ids are stored as text; split the string (delimiter = space)
+    # titles are stored as text; split the string (delimiter = %SPLIT%)
     # cut the first item, which is 'None'
-    return get_field('user_info', 'username', username, 'flashcards').split(' ')[1:]
+    return get_field('user_info', 'username', username, 'flashcards').split('%SPLIT%')
 
 
 #----------USERINFO-MUTATORS----------#
 
 
-# FUNCTIONAL BUT MORE STUFF TBA
 # adds a new user's data to user table
 def register_user(username, password):
 
@@ -94,7 +93,6 @@ def register_user(username, password):
     return "success"
 
 
-# FUNCTIONAL BUT MORE STUFF TBA
 def change_username(old_username, new_username):
 
     if user_exists(new_username):
@@ -119,7 +117,6 @@ def change_username(old_username, new_username):
     return "success"
 
 
-# FUNCTIONAL BUT MORE STUFF TBA
 def change_password(username, old_pass, new_pass):
 
     if not auth(username, old_pass):
@@ -135,9 +132,9 @@ def change_password(username, old_pass, new_pass):
     new_pass = new_pass.encode('utf-8')
     new_pass = str(hashlib.sha256(new_pass).hexdigest())
 
-    command = f'UPDATE user_info SET password = ? WHERE username = ?'
+    command = 'UPDATE user_info SET password = ? WHERE username = ?'
     vars =(new_pass, username)
-    c.execute()
+    c.execute(command, vars)
 
     db.commit()
     db.close()
@@ -204,7 +201,6 @@ def user_exists(username):
     return False
 
 
-# FUNCTIONAL BUT MORE STUFF TBA
 # checks if provided password in login attempt matches user password
 def auth(username, password):
     DB_FILE="data.db"
@@ -217,9 +213,8 @@ def auth(username, password):
 
         raise ValueError("Username does not exist")
 
-    # hash password here? (MUST MATCH other hash from register)
     command = 'SELECT password FROM user_info WHERE username = ?'
-    vars = (username)
+    vars = (username,)
     passpointer = c.execute(command, vars)
     real_pass = passpointer.fetchone()[0]
 
@@ -249,10 +244,10 @@ def get_entries(title):
 
     for i in range(len(get_all_fields("flashcards", "title", title))):
         vars = ("front", "flashcards", "title", title, "card", i)
-        front.append(c.execute(command, vars).fetchone())
+        front.append(c.execute(command, vars).fetchone()[0])
 
         vars = ("back", "flashcards", "title", title, "card", i)
-        back.append(c.execute(command, vars).fetchone())
+        back.append(c.execute(command, vars).fetchone()[0])
 
     return list(zip(fronts, backs))
 
@@ -276,7 +271,7 @@ def get_flashcard_creator(title):
     return get_field("flashcards", "title", title, creator)
 
 
-#----------BLOG-MUTATORS----------#
+#----------FLASHCARDS-MUTATORS----------#
 
 
 def new_flashcard(title, flashcard_content, creator):
@@ -299,10 +294,9 @@ def new_flashcard(title, flashcard_content, creator):
     return blog_id
 
 
-#----------BLOG-HELPERS----------#
+#----------FLASHCARDS-HELPERS----------#
 
 
-# helper for new_blog
 def flashcard_exists(title):
 
     DB_FILE="data.db"
@@ -310,7 +304,7 @@ def flashcard_exists(title):
     c = db.cursor()
 
     command = 'SELECT * FROM flashcards WHERE blog_id = ?'
-    vars = (title)
+    vars = (title,)
     matching_blog = c.execute(command, vars).fetchall()
 
     if len(matching_blog) > 0:
@@ -324,12 +318,6 @@ def flashcard_exists(title):
 
 
 #=============================GENERAL=HELPERS=============================#
-
-
-# generate an id
-def gen_id():
-    # use secrets module to generate a random 32-byte string
-    return secrets.token_hex(32)
 
 
 # used for a bunch of accessor methods; used when only 1 item should be returned
