@@ -27,7 +27,7 @@ def create_user_info():
     db.close()
 
 
-# blogs
+# flashcards
 def create_flashcards():
 
     DB_FILE="data.db"
@@ -35,7 +35,7 @@ def create_flashcards():
     c = db.cursor()
 
     c.execute("""
-        CREATE TABLE IF NOT EXISTS blogs (
+        CREATE TABLE IF NOT EXISTS flashcards (
             title TEXT NOT NULL,
             creator TEXT NOT NULL,
             card INTEGER NOT NULL,
@@ -105,7 +105,7 @@ def change_username(old_username, new_username):
     c = db.cursor()
 
     # update stuff associated with old username
-    command = 'UPDATE blogs SET creator = ? WHERE creator_username = ?'
+    command = 'UPDATE flashcards SET creator = ? WHERE creator_username = ?'
     vars = (new_username, old_username)
     c.execute(command, vars)
 
@@ -182,7 +182,7 @@ def add_flashcards(flashcard_name, creator_username):
     return blog_id
 
 
-#----------user_info-HELPERS----------#
+#----------USERINFO-HELPERS----------#
 
 
 # returns whether or not a user exists
@@ -235,57 +235,63 @@ def auth(username, password):
 
 
 
-#=============================BLOGS=============================#
+#=============================FLASHCARDS=============================#
 
 
-#----------BLOG-ACCESSORS----------#
+#----------FLASHCARDS-ACCESSORS----------#
 
 
-# get all the entry_ids associated with a certain blog
-def get_entries(blog_id):
-    return get_field_list('entries', 'blog_id', blog_id, 'entry_id')
+# get all the flashcard front and backs associated with a certain flashcard
+def get_entries(title):
+    fronts = []
+    backs = []
+    command = 'SELECT ? FROM ? WHERE ? = ? AND ? = ?'
+
+    for i in range(len(get_all_fields("flashcards", "title", title))):
+        vars = ("front", "flashcards", "title", title, "card", i)
+        front.append(c.execute(command, vars).fetchone())
+
+        vars = ("back", "flashcards", "title", title, "card", i)
+        back.append(c.execute(command, vars).fetchone())
+
+    return list(zip(fronts, backs))
 
 
-# get all blogs
-def get_blogs():
+# get all flashcards
+def get_flashcards():
 
     DB_FILE="data.db"
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
 
-    data = c.execute(f'SELECT blog_id FROM blogs').fetchall()
+    data = c.execute('SELECT title FROM flashcards').fetchall()
 
     db.commit()
     db.close()
 
-    return clean_list(data)
+    return list(set(clean_list(data)))
 
 
-def get_blog_name(blog_id):
-    return get_field("blogs", "blog_id", blog_id, blog_name)
-
-
-def get_blog_author(blog_id):
-    return get_field("blogs", "blog_id", blog_id, creator_username)
+def get_flashcard_creator(title):
+    return get_field("flashcards", "title", title, creator)
 
 
 #----------BLOG-MUTATORS----------#
 
 
-# **YOU SHOULDN'T BE USING THIS** see add_blog in user_info section
-# create a *NEW* blog, return ID
-def new_blog(blog_name, creator_username):
+def new_flashcard(title, flashcard_content, creator):
+
+    if (flashcard_exists(title)):
+        raise ValueError("Title already exists")
 
     DB_FILE="data.db"
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
 
-    blog_id = gen_id()
-    # make sure the id is unique
-    while (blog_exists(blog_id)):
-        blog_id = gen_id()
-
-    c.execute(f'INSERT INTO blogs VALUES ("{blog_name}", "{blog_id}", "{creator_username}")')
+    for i in range(len(flashcard_content)):
+        command = 'INSERT INTO flashcards VALUES (?, ?, ?, ?, ?)'
+        vars(title, creator, i, flashcard_content[i][0], flashcard_content[i][1])
+        c.execute(command, vars)
 
     db.commit()
     db.close()
@@ -293,20 +299,20 @@ def new_blog(blog_name, creator_username):
     return blog_id
 
 
-# delete blog?
-
-
 #----------BLOG-HELPERS----------#
 
 
 # helper for new_blog
-def blog_exists(blog_id):
+def flashcard_exists(title):
 
     DB_FILE="data.db"
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
 
-    matching_blog = c.execute(f'SELECT * FROM blogs WHERE blog_id = "{blog_id}"').fetchall()
+    command = 'SELECT * FROM flashcards WHERE blog_id = ?'
+    vars = (title)
+    matching_blog = c.execute(command, vars).fetchall()
+
     if len(matching_blog) > 0:
         db.commit()
         db.close()
@@ -315,101 +321,6 @@ def blog_exists(blog_id):
     db.commit()
     db.close()
     return False
-
-
-#=============================ENTRIES=============================#
-
-
-#----------ENTRY-ACCESSORS----------#
-
-
-def get_entry_name(entry_id):
-    return get_field('entries', 'entry_id', entry_id, 'entry_name')
-
-
-def get_entry_blog(entry_id):
-    return get_field('entries', 'entry_id', entry_id, 'blog_id')
-
-
-def get_entry_udate(entry_id):
-    return get_field('entries', 'entry_id', entry_id, 'upload_date')
-
-
-def get_entry_edate(entry_id):
-    return get_field('entries', 'entry_id', entry_id, 'edit_date')
-
-
-def get_entry_contents(entry_id):
-    return get_field('entries', 'entry_id', entry_id, 'contents')
-
-
-# returns a list of every field associated with this entry_id (besides the id itself)
-def get_entry_all(entry_id):
-    return get_all_fields('entries', 'entry_id', entry_id)
-
-
-#----------ENTRY-MUTATORS----------#
-
-
-# add a *NEW* entry to a blog, return ID
-def add_entry(entry_name, blog_id, contents):
-
-    DB_FILE="data.db"
-    db = sqlite3.connect(DB_FILE)
-    c = db.cursor()
-
-    entry_id = gen_id()
-    # make sure the id is unique
-    while (entry_exists(entry_id)):
-        entry_id = gen_id()
-
-    # retrieve date in yyyy-mm-dd format
-    date = datetime.today().strftime('%Y-%m-%d')
-    c.execute(f'INSERT INTO entries VALUES ("{entry_name}", "{entry_id}", "{blog_id}", "{date}", "{date}", "{contents}")')
-
-    db.commit()
-    db.close()
-
-    return entry_id
-
-
-# modify the entry_name and/or entry's contents
-def update_entry(entry_id, entry_name, contents):
-
-    DB_FILE="data.db"
-    db = sqlite3.connect(DB_FILE)
-    c = db.cursor()
-
-    # get current list of stuff in the row
-    c.execute(f'UPDATE entries SET entry_name = "{entry_name}", contents = "{contents}" WHERE entry_id = "{entry_id}"')
-
-    db.commit()
-    db.close()
-
-
-# delete entry?
-
-
-#----------ENTRY-HELPERS----------#
-
-
-# helper for add_entry
-def entry_exists(entry_id):
-
-    DB_FILE="data.db"
-    db = sqlite3.connect(DB_FILE)
-    c = db.cursor()
-
-    matching_entry = c.execute(f'SELECT * FROM entries WHERE entry_id = "{entry_id}"').fetchall()
-    if len(matching_entry) > 0:
-        db.commit()
-        db.close()
-        return True
-
-    db.commit()
-    db.close()
-    return False
-
 
 
 #=============================GENERAL=HELPERS=============================#
@@ -434,7 +345,9 @@ def get_field_list(table, ID_fieldname, ID, field):
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
 
-    data = c.execute(f'SELECT {field} FROM {table} WHERE {ID_fieldname} = "{ID}"').fetchall()
+    command = 'SELECT ? FROM ? WHERE ? = ?'
+    vars = (field, table, ID_fieldname, ID)
+    data = c.execute(command, vars).fetchall()
 
     db.commit()
     db.close()
@@ -449,7 +362,9 @@ def get_all_fields(table, ID_fieldname, ID):
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
 
-    data = c.execute(f'SELECT * FROM {table} WHERE {ID_fieldname} = "{ID}"').fetchall()
+    command = ('SELECT * FROM ? WHERE ? = ?')
+    vars = (table, ID_fieldname, ID)
+    data = c.execute(command, vars).fetchall()
 
     db.commit()
     db.close()
