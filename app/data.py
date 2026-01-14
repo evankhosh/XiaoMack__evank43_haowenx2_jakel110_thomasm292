@@ -374,6 +374,5 @@ def clean_list(raw_output):
 #=============================MAIN=SCRIPT=============================#
 
 # make tables
-create_user_data()
-create_blog_data()
-create_entry_data()
+create_user_info()
+create_flashcards()

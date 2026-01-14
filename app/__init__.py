@@ -66,15 +66,16 @@ def register():
 @app.route('/logout')
 def logout():
     session.pop('username', None)
+    return redirect(url_for("root"))
 
 @app.route('/home', methods=['GET', 'POST'])
-def home_page():
+def home():
     if 'username' not in session:
         return redirect(url_for('login'))
     return render_template('home.html')
 
 @app.route('/flashcards', methods=['GET', 'POST'])
-def flashcards_page():
+def flashcards():
     if 'username' not in session:
         return redirect(url_for('login'))
     return render_template('flashcards.html') 
