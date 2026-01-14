@@ -303,7 +303,7 @@ def flashcard_exists(title):
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
 
-    command = 'SELECT * FROM flashcards WHERE blog_id = ?'
+    command = 'SELECT * FROM flashcards WHERE title = ?'
     vars = (title,)
     matching_blog = c.execute(command, vars).fetchall()
 

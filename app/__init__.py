@@ -71,6 +71,22 @@ def home():
 def create():
     if 'username' not in session:
         return redirect(url_for('login'))
+
+    if request.method == 'POST':
+        title = request.form.get("title")
+
+        # form list of card tuples
+        cards = []
+        num_cards = int(request.form.get("create_btn"))
+        for i in range(1, num_cards):
+            front = request.form.get(f"front_{i}")
+            back = request.form.get(f"back_{i}")
+            cards.append((front, back))
+
+        user = session["username"]
+
+        new_flashcard(title, cards, user)
+
     return render_template('create.html')
 
 @app.route('/flashcards', methods=['GET', 'POST'])
