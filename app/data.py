@@ -285,13 +285,13 @@ def new_flashcard(title, flashcard_content, creator):
 
     for i in range(len(flashcard_content)):
         command = 'INSERT INTO flashcards VALUES (?, ?, ?, ?, ?)'
-        vars(title, creator, i, flashcard_content[i][0], flashcard_content[i][1])
+        vars = (title, creator, i, flashcard_content[i][0], flashcard_content[i][1])
         c.execute(command, vars)
 
     db.commit()
     db.close()
 
-    return blog_id
+    return title 
 
 
 #----------FLASHCARDS-HELPERS----------#
