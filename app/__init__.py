@@ -5,6 +5,7 @@
 '''
 import sqlite3, json, requests
 from flask import Flask, render_template, session, request, redirect, url_for
+from data import *
 
 app = Flask(__name__)
 
@@ -37,22 +38,12 @@ def login():
             return render_template('login.html', error="No username or password inputted")
 
         #search user table for password from a certain username
-        db = sqlite3.connect(DB_FILE)
-        c = db.cursor()
-        account = c.execute("SELECT password FROM users WHERE name = ?", (username,)).fetchone()
-        db.close()
-
-        #if there is no account then reload page
-        if account is None:
-            return render_template("login.html", error="Username or password is incorrect")
-
-        # check if password is correct, if not then reload page
-        if account[0] != password:
-            return render_template("login.html", error="Username or password is incorrect")
-
-        # if password is correct redirect home
-        session["username"] = username
-        return redirect(url_for("home"))
+        try:
+            auth(username, password)
+            session["username"] = username
+            return redirect(url_for("home"))
+        except ValueError as E:
+            return render_template("login.html", error=E)
 
     return render_template('login.html')
 
@@ -63,22 +54,13 @@ def register():
         password = request.form.get('password').strip()
 
         # reload page if no username or password was entered
-        if not username or not password:
-            return render_template("register.html", error="No username or password inputted")
+        try:
+            register_user(username, password)
+            session['username'] = username
+            return redirect(url_for("home"))
+        except ValueError as E:
+            return render_template("register.html", error=E)
 
-        db = sqlite3.connect(DB_FILE)
-        c = db.cursor()
-        # check if username already exists and reload page if it does
-        exists = c.execute("SELECT 1 FROM users WHERE name = ?", (username,)).fetchone()
-        if exists:
-            db.close()
-            return render_template("register.html", error="Username already exists")
-
-        db.commit()
-        db.close()
-
-        session['username'] = username
-        return redirect(url_for("home"))
     return render_template("register.html")
 
 @app.route('/logout')
