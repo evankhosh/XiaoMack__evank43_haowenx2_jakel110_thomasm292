@@ -33,8 +33,17 @@ thomasM -- 2026-1-12 22:38
 thomasM -- 2026-1-13 11:46
 - added register, login, and logout functions to flask app
 
+evanK -- 2026-1-13 11:47
+DB SETUP
+- added table creation in data.py
+- added accessor and mutator methods for user_info table
+
 jakeL -- 2026-1-13 
 CREATE AND FLASHCARDS
 - card create (add new cards, no db stuff yet)
 - started flashcards page
 
+evanK -- 2026-1-13 22:10
+DB SETUP
+- added accessor and mutator methods for flashcards table
+- added comments in code
