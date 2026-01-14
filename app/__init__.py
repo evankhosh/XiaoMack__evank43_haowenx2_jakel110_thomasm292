@@ -12,13 +12,6 @@ app = Flask(__name__)
 app.secret_key = "key"
 DB_FILE = "data.db"
 
-db = sqlite3.connect(DB_FILE)
-c = db.cursor()
-
-
-db.commit()
-db.close()
-
 @app.route("/", methods=['GET', 'POST'])
 def root():
     if 'username' in session:
@@ -73,6 +66,12 @@ def home():
     if 'username' not in session:
         return redirect(url_for('login'))
     return render_template('home.html')
+
+@app.route('/create', methods=['GET', 'POST'])
+def create():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    return render_template('create.html')
 
 @app.route('/flashcards', methods=['GET', 'POST'])
 def flashcards():
