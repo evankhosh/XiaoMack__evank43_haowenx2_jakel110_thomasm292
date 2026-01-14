@@ -91,9 +91,11 @@ def home_page():
         return redirect(url_for('login'))
     return render_template('home.html')
 
-@app.route('/review')
-def review_page():
-    pass
+@app.route('/flashcards', methods=['GET', 'POST'])
+def flashcards_page():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    return render_template('flashcards.html') 
 
 if __name__ == "__main__":
     app.debug = True
