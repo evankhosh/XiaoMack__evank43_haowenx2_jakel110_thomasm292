@@ -111,6 +111,59 @@ def flashcards():
     flashcards = get_flashcard_content(session["title"])
     return render_template('flashcards.html', title=session["title"], creator=creator, flashcards=flashcards)
 
+@app.route('/profile', methods=['GET', 'POST'])
+def profile():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+
+    success = None
+    error = None
+
+    username = session['username']
+
+    if request.method == 'POST':
+        action = request.form.get('action')
+
+        try:
+            if action == "change_username":
+                new_username = (request.form.get('new_username') or "").strip()
+                if new_username == "":
+                    raise ValueError("New username must be non-empty")
+
+                change_username(username, new_username)
+                session['username'] = new_username
+                username = new_username
+                success = "Username updated!"
+
+            elif action == "change_password":
+                old_pass = request.form.get('old_password') or ""
+                new_pass = request.form.get('new_password') or ""
+                change_password(username, old_pass, new_pass)
+                success = "Password updated!"
+
+        except ValueError as e:
+            error = str(e)
+
+    try:
+        points = get_points(username)
+    except Exception:
+        points = 0
+
+    try:
+        titles = get_flashcards(username)  
+        flashcards = [t for t in titles if t and t != "None"]
+    except Exception:
+        flashcards = []
+
+    return render_template(
+        "profile.html",
+        username=username,
+        points=points,
+        flashcards=flashcards,
+        success=success,
+        error=error
+    )
+
 if __name__ == "__main__":
     app.debug = True
     app.run()
