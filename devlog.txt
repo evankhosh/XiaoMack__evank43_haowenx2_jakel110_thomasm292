@@ -13,7 +13,7 @@ INITIAL DD REVIEW
           duplicate titles need to be handled
           tables shouldn't overflow off pages on the DD
           explain features of FEF that will be used
-    - Positives included: 
+    - Positives included:
           nice organization and site map
           compliments on the overall idea
 * NEW CHANGES:
@@ -25,6 +25,10 @@ jakeL -- 2026-1-12 17:34
 INIT FILE SETUP
 * create routing functions
 * home page headings
+
+haowenX -- 2026-1-12 17:36
+- Fixed design doc, added more info and assigned more roles
+- Linked things together
 
 thomasM -- 2026-1-12 22:38
 - added registration and login html page
@@ -38,10 +42,14 @@ DB SETUP
 - added table creation in data.py
 - added accessor and mutator methods for user_info table
 
-jakeL -- 2026-1-13 
+jakeL -- 2026-1-13
 CREATE AND FLASHCARDS
 - card create (add new cards, no db stuff yet)
 - started flashcards page
+
+haowenX -- 2026-1-13
+- Fixed CSS and cannabalised more code
+- Fixed navbar
 
 evanK -- 2026-1-13 22:10
 DB SETUP
@@ -53,3 +61,7 @@ FLASK & DB INTEGRATION
 - added additional Flask rerouting
 - added database function integration on Flask side
 - changed get_flashcards to return titles and creators
+
+haowenX -- 2026-1-15 11:44
+- Did CSS for homepage and create
+- Added cards and stuff
