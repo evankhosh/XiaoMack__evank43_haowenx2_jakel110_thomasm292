@@ -26,15 +26,16 @@
     <div>
       <h1>From the Community</h1>
     </div>
+    <form id="review" method="POST" action="/home"> </form>
     <div class="container my-5">
         <div class="row g-4">
             <div class = "col-12 col-md-4">
                 <div class="card h-100 quiz-card">
                     <img src = "https://media.istockphoto.com/id/1372106257/photo/retro-white-paper-index-cards-on-a-desk.jpg?s=612x612&w=0&k=20&c=JPK4XEi1zt5VuOpIgG3eQYCcnMuDON8InlaT0Ltirxs=" class = "card-img-top quiz-img">
                     <div class="card-body d-flex flex-column">
-                        <h5 class = "card-title">Set Name</h5>
-                        <p class="card-text">By {{ author }}</p>
-                        <a href="/flashcards" class="btn btn-dark w-100">Review!</a>
+                        <h5 class = "card-title">{{ flashcards[0][0] }}</h5>
+                        <p class="card-text">By {{ flashcards[0][1] }}</p>
+                        <button type="submit" form="review" name="title" value="{{ flashcards[0][0] }}" class="btn btn-dark w-100"> Review! </button>
                     </div>
                 </div>
             </div>
