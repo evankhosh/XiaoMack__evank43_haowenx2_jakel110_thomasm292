@@ -22,9 +22,11 @@ def root():
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
+        data = request.form
+
         # store username and password as a variable
-        username = request.form.get('username').strip().lower()
-        password = request.form.get('password').strip()
+        username = data['username'].strip()
+        password = data['password'].strip()
 
         # render login page if username or password box is empty
         if not username or not password:
@@ -33,26 +35,33 @@ def login():
         #search user table for password from a certain username
         try:
             auth(username, password)
-            session["username"] = username
+            session['username'] = username
             return redirect(url_for("home"))
-        except ValueError as E:
-            return render_template("login.html", error=E)
+
+        except ValueError as e:
+            return render_template("login.html", error=e)
 
     return render_template('login.html')
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        username = request.form.get('username').strip().lower()
-        password = request.form.get('password').strip()
+        data = request.form
+
+        username = data['username'].strip()
+        password = data['password'].strip()
 
         # reload page if no username or password was entered
+        if not username or not password:
+            return render_template('login.html', error="No username or password inputted")
+
         try:
             register_user(username, password)
             session['username'] = username
             return redirect(url_for("home"))
-        except ValueError as E:
-            return render_template("register.html", error=E)
+        
+        except ValueError as e:
+            return render_template("register.html", error=e)
 
     return render_template("register.html")
 
@@ -71,11 +80,14 @@ def home():
         data = request.form
 
         if 'title' in data:
-            session["title"] = data["title"]
+            session['title'] = data['title']
 
         return redirect(url_for("flashcards"))
 
-    return render_template('home.html', flashcards=get_flashcards())
+    return render_template(
+        'home.html',
+        flashcards=get_flashcards()
+    )
 
 @app.route('/create', methods=['GET', 'POST'])
 def create():
@@ -83,19 +95,21 @@ def create():
         return redirect(url_for('login'))
 
     if request.method == 'POST':
-        title = request.form.get("title")
+        data = request.form
 
         # form list of card tuples
         cards = []
-        num_cards = int(request.form.get("create_btn"))
+        num_cards = int(data['create_btn'])
         for i in range(1, num_cards):
-            front = request.form.get(f"front_{i}")
-            back = request.form.get(f"back_{i}")
+            front = data[f"front_{i}"]
+            back = data[f"back_{i}"]
             cards.append((front, back))
 
-        user = session["username"]
-
-        new_flashcard(title, cards, user)
+        try:
+            new_flashcard(data['title'], cards, session['username'])
+            
+        except ValueError as e:
+            return render_tempate('create.html', error=e)
 
     return render_template('create.html')
 
@@ -109,7 +123,13 @@ def flashcards():
 
     creator = get_field("flashcards", "title", session["title"], "creator")
     flashcards = get_flashcard_content(session["title"])
-    return render_template('flashcards.html', title=session["title"], creator=creator, flashcards=flashcards)
+
+    return render_template(
+        'flashcards.html',
+        title=session["title"],
+        creator=creator,
+        flashcards=flashcards
+    )
 
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
@@ -117,24 +137,24 @@ def profile():
         return redirect(url_for('login'))
 
     if request.method == 'POST':
-        action = request.form.get('action')
+        data = request.form
 
         try:
-            if action == "change_username":
-                new_username = request.form.get('new_username').strip()
+            if 'change_username' in data:
+                new_username = data['new_username'].strip()
                 change_username(username, session['username'])
                 session['username'] = new_username
 
-            if action == "change_password":
-                old_pass = request.form.get('old_password').strip()
-                new_pass = request.form.get('new_password').strip()
+            if 'change_password':
+                old_pass = data['old_password'].strip()
+                new_pass = data['new_password'].strip()
                 change_password(username, old_pass, new_pass)
 
         except ValueError as e:
             error = str(e)
 
     return render_template(
-        "profile.html",
+        'profile.html',
         username=session['username'],
         points=get_points(username),
         flashcards=get_user_flashcards(session['username']),
