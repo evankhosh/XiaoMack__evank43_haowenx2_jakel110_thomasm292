@@ -240,13 +240,13 @@ def auth(username, password):
 def get_flashcard_content(title):
     fronts = []
     backs = []
-    command = 'SELECT ? FROM ? WHERE ? = ? AND ? = ?'
+    command = 'SELECT ? FROM flashcards WHERE title = ? AND card = ?'
 
-    for i in range(len(get_all_fields("flashcards", "title", title))):
-        vars = ("front", "flashcards", "title", title, "card", i)
+    for i in range(len(get_field_list("flashcards", "title", title, "card"))):
+        vars = ("front", title, i)
         front.append(c.execute(command, vars).fetchone()[0])
 
-        vars = ("back", "flashcards", "title", title, "card", i)
+        vars = ("back", title, i)
         back.append(c.execute(command, vars).fetchone()[0])
 
     return list(zip(fronts, backs))
@@ -337,8 +337,8 @@ def get_field_list(table, ID_fieldname, ID, field):
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
 
-    command = f'SELECT ? FROM {table} WHERE ? = ?'
-    vars = (field, ID_fieldname, ID)
+    command = f'SELECT ? FROM {table} WHERE {ID_fieldname} = ?'
+    vars = (field, ID)
     data = c.execute(command, vars).fetchall()
 
     db.commit()
@@ -354,8 +354,8 @@ def get_all_fields(table, ID_fieldname, ID):
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
 
-    command = f'SELECT * FROM {table} WHERE ? = ?'
-    vars = (ID_fieldname, ID)
+    command = f'SELECT * FROM {table} WHERE {ID_fieldname} = ?'
+    vars = (ID,)
     data = c.execute(command, vars).fetchall()
 
     db.commit()
