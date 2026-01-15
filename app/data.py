@@ -241,16 +241,24 @@ def auth(username, password):
 
 # get all the flashcard front and backs associated with a certain flashcard
 def get_flashcard_content(title):
+
+    DB_FILE="data.db"
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+
     fronts = []
     backs = []
     command = 'SELECT ? FROM flashcards WHERE title = ? AND card = ?'
 
     for i in range(len(get_field_list("flashcards", "title", title, "card"))):
         vars = ("front", title, i)
-        front.append(c.execute(command, vars).fetchone()[0])
+        fronts.append(c.execute(command, vars).fetchone()[0])
 
         vars = ("back", title, i)
-        back.append(c.execute(command, vars).fetchone()[0])
+        backs.append(c.execute(command, vars).fetchone()[0])
+
+    db.commit()
+    db.close()
 
     return list(zip(fronts, backs))
 
