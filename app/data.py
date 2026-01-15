@@ -370,7 +370,7 @@ def clean_list(raw_output):
     clean_output = []
     for lst in raw_output:
         for item in lst:
-            clean_output += [item]
+            clean_output.append(item)
 
     return clean_output
 
