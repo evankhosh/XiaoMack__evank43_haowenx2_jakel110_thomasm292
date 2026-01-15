@@ -83,8 +83,8 @@ def register_user(username, password):
     password = password.encode('utf-8')
     password = str(hashlib.sha256(password).hexdigest())
 
-    command = 'INSERT INTO user_info VALUES (?, ?, NULL, NULL)'
-    vars = (username, password)
+    command = 'INSERT INTO user_info VALUES (?, ?, NULL, ?)'
+    vars = (username, password, 0)
     c.execute(command, vars)
 
     db.commit()
@@ -94,6 +94,9 @@ def register_user(username, password):
 
 
 def change_username(old_username, new_username):
+
+    if new_username == "":
+        raise ValueError("Your new username must be non-empty")
 
     if user_exists(new_username):
         raise ValueError("Username already exists")
@@ -238,6 +241,11 @@ def auth(username, password):
 
 # get all the flashcard front and backs associated with a certain flashcard
 def get_flashcard_content(title):
+
+    DB_FILE="data.db"
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
+
     fronts = []
     backs = []
 
