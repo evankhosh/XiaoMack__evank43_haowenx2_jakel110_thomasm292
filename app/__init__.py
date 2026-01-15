@@ -103,7 +103,7 @@ def create():
 def flashcards():
     if 'username' not in session:
         return redirect(url_for('login'))
-    
+
     if 'title' not in session:
         return redirect(url_for('home'))
 
@@ -116,51 +116,28 @@ def profile():
     if 'username' not in session:
         return redirect(url_for('login'))
 
-    success = None
-    error = None
-
-    username = session['username']
-
     if request.method == 'POST':
         action = request.form.get('action')
 
         try:
             if action == "change_username":
-                new_username = (request.form.get('new_username') or "").strip()
-                if new_username == "":
-                    raise ValueError("New username must be non-empty")
-
-                change_username(username, new_username)
+                new_username = request.form.get('new_username').strip()
+                change_username(username, session['username'])
                 session['username'] = new_username
-                username = new_username
-                success = "Username updated!"
 
-            elif action == "change_password":
-                old_pass = request.form.get('old_password') or ""
-                new_pass = request.form.get('new_password') or ""
+            if action == "change_password":
+                old_pass = request.form.get('old_password').strip()
+                new_pass = request.form.get('new_password').strip()
                 change_password(username, old_pass, new_pass)
-                success = "Password updated!"
 
         except ValueError as e:
             error = str(e)
 
-    try:
-        points = get_points(username)
-    except Exception:
-        points = 0
-
-    try:
-        titles = get_flashcards(username)  
-        flashcards = [t for t in titles if t and t != "None"]
-    except Exception:
-        flashcards = []
-
     return render_template(
         "profile.html",
-        username=username,
-        points=points,
-        flashcards=flashcards,
-        success=success,
+        username=session['username'],
+        points=get_points(username),
+        flashcards=get_user_flashcards(session['username']),
         error=error
     )
 
