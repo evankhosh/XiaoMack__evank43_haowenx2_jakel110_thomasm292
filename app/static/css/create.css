@@ -4,7 +4,7 @@
   font-size: 20px;
   align-items: center;
   list-style-type: none;
-  background-color: #a3c4e8; 
+  background-color: #a3c4e8;
   align-self: center;
 }
 
@@ -18,4 +18,8 @@
 .nav a {
   color: #1c1a1a;
   text-decoration: none;
+}
+
+.card {
+  background-color: black;
 }

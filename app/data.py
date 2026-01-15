@@ -248,6 +248,10 @@ def get_flashcard_content(title):
 
     fronts = []
     backs = []
+
+    DB_FILE="data.db"
+    db = sqlite3.connect(DB_FILE)
+    c = db.cursor()
     command = 'SELECT ? FROM flashcards WHERE title = ? AND card = ?'
 
     for i in range(len(get_field_list("flashcards", "title", title, "card"))):

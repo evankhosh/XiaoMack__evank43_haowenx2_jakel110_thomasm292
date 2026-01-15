@@ -22,10 +22,15 @@
         <a href="/logout"> Log Out </a>
       </div>
     </div>
-    <div class="card w-50 mx-auto py-10 align-items-center">
+    <h1>{{ title }}</h1>
+    <h2>{{ creator }}</h2>
+    {% for i in range(flashcards|length) %}
+    <div onclick="flip(this)" class="card w-50 mx-auto py-10 align-items-center" id="card_{{ i }}">
       <div class="card-body">
-        Front
+        {{ flashcards[i][0] }}
       </div>
     </div>
+    {% endfor %}
   </body>
+  <script src="../static/js/flashcards.js"></script>
 </html>
