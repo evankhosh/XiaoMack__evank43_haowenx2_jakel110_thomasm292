@@ -19,7 +19,7 @@
     <div class="mb-3">
     <input type="password" name="password" id="password" class="form-control form-control-lg" placeholder="Password" required>
         </div>
-    <button type="submit" class="btn btn-success btn-lg w-100">Login</button>
+    <button type="submit" class="btn btn-info btn-lg w-100 login">Login</button>
     </form>
 
   {% if error %}
@@ -27,7 +27,7 @@
   {% endif %}
 
   <p class="text-center mt-3 mb-0">Don't have an account?
-   <a href="{{ url_for('register') }}" class="btn btn-info btn-sm ms-2">Register Here</a>
+   <a href="{{ url_for('register') }}" class="btn btn-info btn-sm ms-2 register">Register Here</a>
    </p>
    </div>
  </div>
