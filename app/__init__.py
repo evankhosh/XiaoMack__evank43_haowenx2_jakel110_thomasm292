@@ -121,7 +121,7 @@ def profile():
 
         try:
             if action == "change_username":
-                new_username = (request.form.get('new_username').strip()
+                new_username = request.form.get('new_username').strip()
                 change_username(username, session['username'])
                 session['username'] = new_username
 
