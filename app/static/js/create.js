@@ -45,6 +45,7 @@ document.getElementById("add_btn").addEventListener("click", () => {
     div.append(back_input);
     div.append(document.createElement("br"));
     div.append(document.createElement("br"));
+    div.setAttribute("class", "card")
 
     const add_btn = document.getElementById("add_btn");
     add_btn.before(div);
