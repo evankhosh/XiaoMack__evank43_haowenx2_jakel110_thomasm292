@@ -125,9 +125,6 @@ def change_password(username, old_pass, new_pass):
     if not auth(username, old_pass):
         raise ValueError("Incorrect old password")
 
-    if new_pass == "":
-        raise ValueError("New password must be non-empty")
-
     DB_FILE="data.db"
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
