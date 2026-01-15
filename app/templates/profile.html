@@ -32,13 +32,6 @@
         </div>
       </div>
 
-      {% if success %}
-        <div class="alert alert-success mt-3">{{ success }}</div>
-      {% endif %}
-      {% if error %}
-        <div class="alert alert-danger mt-3">{{ error }}</div>
-      {% endif %}
-
       <div class="row g-4 mt-2">
         <!-- Flashcards list -->
         <div class="col-12 col-lg-7">
@@ -47,6 +40,7 @@
               <h5 class="m-0">Your Flashcards</h5>
             </div>
 
+            <form id="review" method="POST" action="/profile"> </form>
             <div class="card-body">
               {% if flashcards|length == 0 %}
                 <p class="text-muted m-0">No flashcards yet. Go to <a href="/create">Create</a> to make one.</p>
@@ -55,12 +49,7 @@
                   {% for title in flashcards %}
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       <span>{{ title }}</span>
-
-                      <!-- Optional: change this link to whatever route you use to study a specific set -->
-                      <!-- Example if you later add: /flashcards?title=<title> -->
-                      <a class="btn btn-sm btn-outline-primary" href="/flashcards">
-                        Open
-                      </a>
+                      <button type="submit" form="review" name="title" value="{{ title }}" class="btn btn-dark w-100"> Review! </button>
                     </li>
                   {% endfor %}
                 </ul>
