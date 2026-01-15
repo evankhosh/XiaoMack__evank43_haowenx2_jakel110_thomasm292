@@ -58,7 +58,7 @@ def get_points(username):
     return get_field('user_info', 'username', username, 'points')
 
 
-def get_flashcards(username):
+def get_user_flashcards(username):
     # titles are stored as text; split the string (delimiter = %SPLIT%)
     # cut the first item, which is 'None'
     return get_field('user_info', 'username', username, 'flashcards').split('%SPLIT%')
@@ -237,7 +237,7 @@ def auth(username, password):
 
 
 # get all the flashcard front and backs associated with a certain flashcard
-def get_entries(title):
+def get_flashcard_content(title):
     fronts = []
     backs = []
     command = 'SELECT ? FROM ? WHERE ? = ? AND ? = ?'
@@ -259,12 +259,16 @@ def get_flashcards():
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
 
-    data = c.execute('SELECT title FROM flashcards').fetchall()
+    titles = list(set(clean_list(c.execute('SELECT title FROM flashcards').fetchall())))
+    data = []
+
+    for i in range(len(titles)):
+        data.append((titles[i], get_field("flashcards", "title", titles[i], "creator")))
 
     db.commit()
     db.close()
 
-    return list(set(clean_list(data)))
+    return data
 
 
 def get_flashcard_creator(title):
@@ -333,8 +337,8 @@ def get_field_list(table, ID_fieldname, ID, field):
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
 
-    command = 'SELECT ? FROM ? WHERE ? = ?'
-    vars = (field, table, ID_fieldname, ID)
+    command = f'SELECT ? FROM {table} WHERE ? = ?'
+    vars = (field, ID_fieldname, ID)
     data = c.execute(command, vars).fetchall()
 
     db.commit()
@@ -350,8 +354,8 @@ def get_all_fields(table, ID_fieldname, ID):
     db = sqlite3.connect(DB_FILE)
     c = db.cursor()
 
-    command = ('SELECT * FROM ? WHERE ? = ?')
-    vars = (table, ID_fieldname, ID)
+    command = f'SELECT * FROM {table} WHERE ? = ?'
+    vars = (ID_fieldname, ID)
     data = c.execute(command, vars).fetchall()
 
     db.commit()
