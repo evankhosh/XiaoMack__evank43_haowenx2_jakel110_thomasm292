@@ -3,7 +3,7 @@
     P02: Makers Makin' It, Act I
     1-16-26
 '''
-import sqlite3, json, requests
+import sqlite3, json#, requests
 from flask import Flask, render_template, session, request, redirect, url_for
 from data import *
 
@@ -59,13 +59,23 @@ def register():
 @app.route('/logout')
 def logout():
     session.pop('username', None)
+
     return redirect(url_for("root"))
 
 @app.route('/home', methods=['GET', 'POST'])
 def home():
     if 'username' not in session:
         return redirect(url_for('login'))
-    return render_template('home.html')
+
+    if request.method == 'POST':
+        data = request.form
+
+        if 'title' in data:
+            session["title"] = data["title"]
+
+        return redirect(url_for("flashcards"))
+
+    return render_template('home.html', flashcards=get_flashcards())
 
 @app.route('/create', methods=['GET', 'POST'])
 def create():
@@ -93,7 +103,13 @@ def create():
 def flashcards():
     if 'username' not in session:
         return redirect(url_for('login'))
-    return render_template('flashcards.html') 
+    
+    if 'title' not in session:
+        return redirect(url_for('home'))
+
+    creator = get_field("flashcards", "title", session["title"], "creator")
+    flashcards = get_flashcard_content(session["title"])
+    return render_template('flashcards.html', title=session["title"], creator=creator, flashcards=flashcards)
 
 if __name__ == "__main__":
     app.debug = True
