@@ -47,3 +47,9 @@ evanK -- 2026-1-13 22:10
 DB SETUP
 - added accessor and mutator methods for flashcards table
 - added comments in code
+
+evanK -- 2026-1-14 23:24
+FLASK & DB INTEGRATION
+- added additional Flask rerouting
+- added database function integration on Flask side
+- changed get_flashcards to return titles and creators
