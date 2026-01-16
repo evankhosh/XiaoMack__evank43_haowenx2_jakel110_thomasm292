@@ -107,9 +107,8 @@
         <h2 class="column-title">Fronts</h2>
         <div class="cards-container">
           {% for flashcard in flashcards %}
-            <div class="match-card" id="front-{{ loop.index0 }}">
+            <div class="match-card" role="button" id="front-{{ loop.index0 }}" onclick="select_front('front-{{ loop.index0 }}')">
               <h5 class="card-content" id="frontcontent-{{ loop.index0 }}">{{ flashcard[0] }}</h5>
-              <button class="select-button" onclick="select_front('front-{{ loop.index0 }}')">Select</button>
             </div>
           {% endfor %}
         </div>
@@ -120,9 +119,8 @@
         <h2 class="column-title">Backs</h2>
         <div class="cards-container">
           {% for flashcard in flashcards %}
-            <div class="match-card" id="back-{{ loop.index0 }}">
+            <div class="match-card" role="button" id="back-{{ loop.index0 }}" onclick="select_back('back-{{ loop.index0 }}')">
               <h5 class="card-content" id="backcontent-{{ loop.index0 }}">{{ flashcard[1] }}</h5>
-              <button class="select-button" onclick="select_back('back-{{ loop.index0 }}')">Select</button>
             </div>
           {% endfor %}
         </div>
