@@ -106,7 +106,7 @@ def change_username(old_username, new_username):
     c = db.cursor()
 
     # update stuff associated with old username
-    command = 'UPDATE flashcards SET creator = ? WHERE creator_username = ?'
+    command = 'UPDATE flashcards SET creator = ? WHERE creator = ?'
     vars = (new_username, old_username)
     c.execute(command, vars)
 

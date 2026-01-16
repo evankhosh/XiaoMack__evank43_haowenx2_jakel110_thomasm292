@@ -89,8 +89,9 @@ def home():
 
         if 'title' in data:
             session['title'] = data['title']
+            add_points(session['username'])
 
-        return redirect(url_for("flashcards"))
+            return redirect(url_for("flashcards"))
 
     print(get_flashcards())
 
