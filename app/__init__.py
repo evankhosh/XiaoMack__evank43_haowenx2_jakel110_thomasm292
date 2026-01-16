@@ -199,18 +199,22 @@ def profile():
     if 'username' not in session:
         return redirect(url_for('login'))
 
+    username = session['username']
+    error = None
+
     if request.method == 'POST':
         data = request.form
 
         try:
             if 'change_username' in data:
-                new_username = data['new_username'].strip()
-                change_username(username, session['username'])
+                new_username = data.get('new_username', '').strip()
+                change_username(username, new_username)
                 session['username'] = new_username
+                username = new_username  # keep it consistent
 
-            if 'change_password':
-                old_pass = data['old_password'].strip()
-                new_pass = data['new_password'].strip()
+            if 'change_password' in data:
+                old_pass = data.get('old_password', '').strip()
+                new_pass = data.get('new_password', '').strip()
                 change_password(username, old_pass, new_pass)
 
         except ValueError as e:
@@ -218,9 +222,9 @@ def profile():
 
     return render_template(
         'profile.html',
-        username=session['username'],
+        username=username,
         points=get_points(username),
-        flashcards=get_user_flashcards(session['username']),
+        flashcards=get_user_flashcards(username),
         error=error
     )
 
