@@ -10,19 +10,20 @@ const generate_q = () => {
     question = get_random_int(num_cards);
     let chosen = [question];
     question_front = document.getElementById("q_" + chosen[0]);
-    question_front.setAttribute("class", question_front.getAttribute("class").substring(6)); 
+    question_front.setAttribute("class", question_front.getAttribute("class").replace("d-none", "")); 
 
     ans_correct = document.getElementById("ans_" + chosen[0]);
-    ans_correct.setAttribute("class", ans_correct.getAttribute("class").substring(6)); 
+    ans_correct.setAttribute("class", ans_correct.getAttribute("class").replace("d-none", "")); 
 
     for (let i = 0; i < 3; i++) {
         let c = get_random_int(num_cards);
         while (chosen.includes(c)) {
             c = get_random_int(num_cards);
         }
+        chosen.push(c);
 
         ans = document.getElementById("ans_" + c);
-        ans.setAttribute("class",  ans_correct.getAttribute("class").substring(6));
+        ans.setAttribute("class",  ans_correct.getAttribute("class").replace("d-none", ""));
     }
 };
 
@@ -31,13 +32,22 @@ const clear_q = () => {
     num_cards = Number(q.dataset.num_cards);
 
     for (let i = 0; i < num_cards; i++) {
+        console.log(i);
         front = document.getElementById("q_" + i);
         if (!front.getAttribute("class").includes("d-none")) {
-            front.setAttribute("class", "d-none " + back.getAttribute("class"))
+            if (front.getAttribute("class") === "") {
+                front.setAttribute("class", "d-none");
+            } else {
+                front.setAttribute("class", "d-none " + front.getAttribute("class"));
+            }
         }
         back = document.getElementById("ans_" + i);
         if (!back.getAttribute("class").includes("d-none")) {
-            back.setAttribute("class", "d-none " + back.getAttribute("class"))
+            if (back.getAttribute("class") === "") {
+                back.setAttribute("class", "d-none");
+            } else {
+                back.setAttribute("class", "d-none " + back.getAttribute("class"));
+            }
         }
     }
 }

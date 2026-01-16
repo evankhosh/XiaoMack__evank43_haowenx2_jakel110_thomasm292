@@ -65,3 +65,7 @@ FLASK & DB INTEGRATION
 haowenX -- 2026-1-15 11:44
 - Did CSS for homepage and create
 - Added cards and stuff
+
+jakeL -- 2026-1-15 21:49
+QUIZ AND FLASHCARD GAMES
+- finished games logic
