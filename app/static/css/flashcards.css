@@ -19,3 +19,20 @@
   color: #1c1a1a;
   text-decoration: none;
 }
+
+.card {
+  margin-top: 30px;
+  border-radius: 12px;
+  min-height: 160px;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.card-body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  text-align: center;
+  padding: 30px;
+}
