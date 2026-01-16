@@ -6,6 +6,84 @@
     <title>QuizLiu: Match!</title>
     <link rel='stylesheet' href='../static/css/match_pair.css'>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <style>
+      body {
+        background-color: #f8f9fa;
+      }
+      
+      .content-wrapper {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        padding: 40px 20px;
+      }
+      
+      .column {
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .column-title {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #0056b3;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+      
+      .cards-container {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+      
+      .match-card {
+        background-color: #e7f0ff;
+        border: 2px solid #0056b3;
+        border-radius: 8px;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 120px;
+        box-shadow: 0 2px 4px rgba(0, 86, 179, 0.1);
+        transition: all 0.3s ease;
+      }
+      
+      .match-card:hover {
+        background-color: #d4e4ff;
+        box-shadow: 0 4px 8px rgba(0, 86, 179, 0.2);
+      }
+      
+      .card-content {
+        color: #003d82;
+        margin-bottom: 15px;
+        word-wrap: break-word;
+      }
+      
+      .select-button {
+        background-color: #0056b3;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: background-color 0.3s ease;
+      }
+      
+      .select-button:hover {
+        background-color: #003d82;
+        color: white;
+      }
+      
+      @media (max-width: 768px) {
+        .content-wrapper {
+          grid-template-columns: 1fr;
+          gap: 30px;
+        }
+      }
+    </style>
   </head>
   <body>
     <div class="navbar">
@@ -22,5 +100,40 @@
         <a href="/logout"> Log Out </a>
       </div>
     </div>
-      </body>
+    
+    <div class="content-wrapper">
+      <!-- Left Column: Fronts -->
+      <div class="column">
+        <h2 class="column-title">Fronts</h2>
+        <div class="cards-container">
+          {% for flashcard in flashcards %}
+            <div class="match-card" id="front-{{ loop.index0 }}">
+              <h5 class="card-content" id="frontcontent-{{ loop.index0 }}">{{ flashcard[0] }}</h5>
+              <button class="select-button" onclick="select_front('front-{{ loop.index0 }}')">Select</button>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+      
+      <!-- Right Column: Backs -->
+      <div class="column">
+        <h2 class="column-title">Backs</h2>
+        <div class="cards-container">
+          {% for flashcard in flashcards %}
+            <div class="match-card" id="back-{{ loop.index0 }}">
+              <h5 class="card-content" id="backcontent-{{ loop.index0 }}">{{ flashcard[1] }}</h5>
+              <button class="select-button" onclick="select_back('back-{{ loop.index0 }}')">Select</button>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div><!-- Reset Button -->
+    <div class="column" style="margin-top: 25px; margin-left: 25%; margin-right: 25%;">
+        <button class="btn btn-danger" onclick="reset()">Reset</button>
+    </div>
+  </body>
+  <script type="text/javascript">
+    var flashcards = {{ flashcards|tojson }};
+  </script>
+  <script type="text/javascript" src='../static/js/match_pair.js'></script>
 </html>
