@@ -78,11 +78,14 @@ def home():
 
     if request.method == 'POST':
         data = request.form
+        print(data['title'])
 
         if 'title' in data:
             session['title'] = data['title']
 
         return redirect(url_for("flashcards"))
+
+    print(get_flashcards())
 
     return render_template(
         'home.html',
@@ -93,6 +96,8 @@ def home():
 def create():
     if 'username' not in session:
         return redirect(url_for('login'))
+    
+    print(session["username"])
 
     if request.method == 'POST':
         data = request.form
@@ -109,7 +114,7 @@ def create():
             new_flashcard(data['title'], cards, session['username'])
             
         except ValueError as e:
-            return render_tempate('create.html', error=e)
+            return render_template('create.html', error=e)
 
     return render_template('create.html')
 
@@ -123,6 +128,7 @@ def flashcards():
 
     creator = get_field("flashcards", "title", session["title"], "creator")
     flashcards = get_flashcard_content(session["title"])
+    print(flashcards)
 
     return render_template(
         'flashcards.html',
