@@ -6,6 +6,77 @@
     <title>QuizLiu: Flashcards</title>
     <link rel='stylesheet' href='../static/css/flashcards.css'>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  
+    <style>
+      body {
+        background-color: #f8f9fa;
+      }
+
+      .content-wrapper {
+        display: grid;
+        grid-template-columns: 0.5fr 2fr 0.5fr;
+        padding: 40px 20px;
+        align-items: center;
+        gap: 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .prev-card-btn, .next-card-btn {
+        background-color: #0056b3;
+        color: white;
+        border-radius: 8px;
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 80px;
+        box-shadow: 0 2px 4px rgba(0, 86, 179, 0.1);
+        transition: all 0.3s ease;
+        cursor: pointer;
+        border: none;
+      }
+
+      .prev-card-btn:hover, .next-card-btn:hover {
+        background-color: #003d82;
+        box-shadow: 0 4px 8px rgba(0, 86, 179, 0.2);
+      }
+
+      .prev-card-btn {
+        visibility: hidden;
+      }
+
+      .card {
+        background-color: white;
+        border: 2px solid #0056b3;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 86, 179, 0.15);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        min-height: 300px;
+      }
+
+      .card:hover {
+        box-shadow: 0 8px 20px rgba(0, 86, 179, 0.25);
+        transform: translateY(-2px);
+      }
+
+      .card-body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+      }
+
+      .card-content {
+        color: #003d82;
+        font-size: 1.5rem;
+        text-align: center;
+        margin: 0;
+        transition: opacity 0.3s ease;
+      }
+    </style>
   </head>
   <body>
     <div class="navbar">
@@ -23,14 +94,23 @@
       </div>
     </div>
     <h1>{{ title }}</h1>
-    <h2>{{ creator }}</h2>
-    {% for i in range(flashcards|length) %}
-    <div onclick="flip(this)" class="card w-50 mx-auto py-10 align-items-center" role="button" id="card_{{ i }}_{{ flashcards[i][1] }}">
-      <div class="card-body">
-        {{ flashcards[i][0] }}
+    <h2>By: {{ creator }}</h2>
+    <div class="content-wrapper">
+      <div class="prev-card-btn" role="button" id="prev-card-btn" onclick="prevCard()">
+        <h5> Prev </h5>
+      </div>
+      <div class="card w-50 mx-auto py-10 align-items-center" role="button" id="card" onclick="flip()">
+        <div class="card-body" id="card-body">
+          <h5 class="card-content" id="card-content"> </h5>
+        </div>
+      </div>
+      <div class="next-card-btn" role="button" id="next-card-btn" onclick="nextCard()">
+        <h5> Next </h5>
       </div>
     </div>
-    {% endfor %}
   </body>
-  <script src="../static/js/flashcards.js"></script>
+  <script type="text/javascript">
+    var flashcards = {{ flashcards|tojson }};
+  </script>
+  <script type="text/javascript" src='../static/js/flashcards.js'></script>
 </html>
