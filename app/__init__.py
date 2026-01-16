@@ -6,6 +6,7 @@
 import sqlite3, json#, requests
 from flask import Flask, render_template, session, request, redirect, url_for
 from data import *
+from random import shuffle
 
 app = Flask(__name__)
 
@@ -21,6 +22,9 @@ def root():
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
+    if 'username' in session:
+        return redirect(url_for('home'))
+
     if request.method == 'POST':
         data = request.form
 
@@ -45,6 +49,9 @@ def login():
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
+    if 'username' in session:
+        return redirect(url_for('home'))
+
     if request.method == 'POST':
         data = request.form
 
@@ -100,7 +107,7 @@ def create():
         # form list of card tuples
         cards = []
         num_cards = int(data['create_btn'])
-        for i in range(1, num_cards):
+        for i in range(1, num_cards + 1):
             front = data[f"front_{i}"]
             back = data[f"back_{i}"]
             cards.append((front, back))
@@ -110,6 +117,8 @@ def create():
             
         except ValueError as e:
             return render_tempate('create.html', error=e)
+        
+        return redirect(url_for('home'))
 
     return render_template('create.html')
 
@@ -126,6 +135,31 @@ def flashcards():
 
     return render_template(
         'flashcards.html',
+        title=session["title"],
+        creator=creator,
+        flashcards=flashcards
+    )
+
+@app.route('/matchpair', methods=['GET', 'POST'])
+def matchpair():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+
+    if 'title' not in session:
+        return redirect(url_for('home'))
+
+    creator = get_field("flashcards", "title", session["title"], "creator")
+    flashcards = get_flashcard_content(session["title"])
+
+    fronts, backs = zip(*flashcards)
+    fronts = list(fronts)
+    backs = list(backs)
+    shuffle(backs)
+    shuffle(fronts)
+    flashcards = list(zip(fronts, backs))
+
+    return render_template(
+        'match_pair.html',
         title=session["title"],
         creator=creator,
         flashcards=flashcards
