@@ -25,7 +25,7 @@
     <h1>{{ title }}</h1>
     <h2>{{ creator }}</h2>
     {% for i in range(flashcards|length) %}
-    <div onclick="flip(this)" class="card w-50 mx-auto py-10 align-items-center" id="card_{{ i }}">
+    <div onclick="flip(this)" class="card w-50 mx-auto py-10 align-items-center" role="button" id="card_{{ i }}_{{ flashcards[i][1] }}">
       <div class="card-body">
         {{ flashcards[i][0] }}
       </div>
