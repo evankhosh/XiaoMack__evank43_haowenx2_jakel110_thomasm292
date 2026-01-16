@@ -1,25 +1,64 @@
-const flip = (card) => {
-  console.log("flipped");
-  id = card.id;
-  under_1 = id.indexOf("_");
-  under_2 = id.lastIndexOf("_");
-  card_id = id.substring(under_1 + 1, under_2);
-  other_side_val = id.substring(under_2 + 1);
+var card = 1;
+var flipped = false;
+card_content = document.getElementById("card-content");
+card_content.innerText = flashcards[0][0];
 
-  curr = document.getElementById(id);
+var flip = function() {
+  card_content = document.getElementById("card-content");
 
-  other_side = document.createElement("div");
-  other_side.setAttribute("onclick", "flip(this)");
-  other_side.setAttribute("class", "card w-50 mx-auto py-10 align-items-center");
-  other_side.setAttribute("role", "button");
-  other_side.setAttribute("id", id + "_" + curr.textContent);
+  if (!flipped) {
+    card_content.innerText = flashcards[card - 1][1];
+    flipped = true;
+  } else {
+    card_content.innerText = flashcards[card - 1][0];
+    flipped = false;
+  }
+};
 
-  inner_div = document.createElement("div");
-  inner_div.setAttribute("class", "card-body");
-  inner_div.textContent = other_side_val;
+var nextCard = function() {
+  card += 1;
+  if (card >= flashcards.length) {
+    card = flashcards.length;
+    next_card_btn = document.getElementById("next-card-btn");
+    next_card_btn.style.visibility = "hidden";
+    return;
+  }
 
-  other_side.append(inner_div);
+  if (card == flashcards.length) {
+    next_card_btn = document.getElementById("next-card-btn");
+    next_card_btn.style.visibility = "hidden";
+  }
 
-  curr.before(other_side);
-  curr.remove();
+  if (card > 1) {
+    prev_card_btn = document.getElementById("prev-card-btn");
+    prev_card_btn.style.visibility = "visible";
+  }
+
+  card_content = document.getElementById("card-content");
+  card_content.innerText = flashcards[card - 1][0];
+  flipped = false;
+};
+
+var prevCard = function() {
+  card -= 1;
+  if (card < 1) {
+    card = 1;    
+    prev_card_btn = document.getElementById("prev-card-btn");
+    prev_card_btn.style.visibility = "hidden";
+    return;
+  }
+
+  if (card == 1) {
+    prev_card_btn = document.getElementById("prev-card-btn");
+    prev_card_btn.style.visibility = "hidden";
+  }
+
+  if (card < flashcards.length) {
+    next_card_btn = document.getElementById("next-card-btn");
+    next_card_btn.style.visibility = "visible";
+  }
+
+  card_content = document.getElementById("card-content");
+  card_content.innerText = flashcards[card - 1][0];
+  flipped = false;
 };
