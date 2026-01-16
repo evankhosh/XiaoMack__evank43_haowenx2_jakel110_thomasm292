@@ -21,5 +21,11 @@
 }
 
 .card {
-  background-color: black;
+  max-width: 900px;
+  width: 92%;
+  margin: 18px auto;
+  padding: 18px;
+
+  border: 1px solid #dee2e6;
+  border-radius: 14px;
 }

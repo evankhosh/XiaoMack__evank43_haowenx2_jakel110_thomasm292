@@ -47,8 +47,8 @@ document.getElementById("add_btn").addEventListener("click", () => {
     div.append(document.createElement("br"));
     div.setAttribute("class", "card")
 
-    const add_btn = document.getElementById("add_btn");
-    add_btn.before(div);
+const btnRow = document.getElementById("btn_row");
+btnRow.before(div);
 });
 
 document.getElementById("create_btn").addEventListener("click", (e) => {

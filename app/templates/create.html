@@ -24,7 +24,7 @@
     </div>
 
     <form method="POST" id="cards">
-      <div>
+      <div class = "card">
         <label for="title" class = "display-1">Title:</label><br>
         <input for="title" id="title" name="title" required><br>
       </div>
@@ -36,8 +36,11 @@
         <input type="text" id="front_1" name="front_1" required><br>
         <label for="back_1">Back:</label><br>
         <input type="text" id="back_1" name="back_1" required><br><br>
-        <button type="button" id="add_btn">Add</button>
-        <button name="create_btn" value="1" type="submit" id="create_btn">Create</button>
+      </div>
+
+      <div id="btn_row" class="card">
+      <button type="button" id="add_btn">Add</button>
+      <button name="create_btn" value="1" type="submit" id="create_btn">Create</button>
       </div>
     </form>
   </body>
