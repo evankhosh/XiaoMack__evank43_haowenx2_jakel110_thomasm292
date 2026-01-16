@@ -185,13 +185,14 @@ def matchpair():
     backs = list(backs)
     shuffle(backs)
     shuffle(fronts)
-    flashcards = list(zip(fronts, backs))
+    shuffled_flashcards = list(zip(fronts, backs))
 
     return render_template(
         'match_pair.html',
         title=session["title"],
         creator=creator,
-        flashcards=flashcards
+        flashcards=flashcards,
+        shuffled_flashcards=shuffled_flashcards
     )
 
 @app.route('/profile', methods=['GET', 'POST'])

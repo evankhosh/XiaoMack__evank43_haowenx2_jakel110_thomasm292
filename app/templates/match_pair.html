@@ -118,7 +118,7 @@
       <div class="column">
         <h2 class="column-title">Backs</h2>
         <div class="cards-container">
-          {% for flashcard in flashcards %}
+          {% for flashcard in shuffled_flashcards %}
             <div class="match-card" role="button" id="back-{{ loop.index0 }}" onclick="select_back('back-{{ loop.index0 }}')">
               <h5 class="card-content" id="backcontent-{{ loop.index0 }}">{{ flashcard[1] }}</h5>
             </div>
