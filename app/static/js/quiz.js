@@ -52,15 +52,35 @@ const clear_q = () => {
     }
 }
 
+const remove_msg = () => {
+    const msg = document.getElementById("msg");
+    if (msg != null) {
+        msg.remove();
+    }
+}
+
 const check_ans = (ans_id) => {
     id = Number(ans_id);
+    remove_msg();
 
     if (id == question) {
         console.log("Correct");
+        msg = document.createElement("h2");
+        msg.setAttribute("id", "msg");
+        msg.setAttribute("class", "text-success");
+        msg.textContent = "Correct!";
+        form = document.getElementById("question");
+        form.after(msg);
         clear_q();
         generate_q();
     } else {
         console.log("wrong");
+        msg = document.createElement("h2");
+        msg.setAttribute("id", "msg");
+        msg.setAttribute("class", "text-danger");
+        msg.textContent = "Wrong :(";
+        form = document.getElementById("question");
+        form.after(msg);
     }
 
 };
