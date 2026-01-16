@@ -56,6 +56,9 @@ DB SETUP
 - added accessor and mutator methods for flashcards table
 - added comments in code
 
+thomasM -- 2026-1-14 22:38
+- add code for profile html and how the profile would dispaly all the users flashcards as well as a chance to update their username and password
+
 evanK -- 2026-1-14 23:24
 FLASK & DB INTEGRATION
 - added additional Flask rerouting
@@ -66,6 +69,10 @@ haowenX -- 2026-1-15 11:44
 - Did CSS for homepage and create
 - Added cards and stuff
 
+thomasM -- 2026-1-15 22:09
+- Added css for quiz and flashcards
+
 jakeL -- 2026-1-15 21:49
 QUIZ AND FLASHCARD GAMES
 - finished games logic
+
