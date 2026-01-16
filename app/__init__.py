@@ -204,15 +204,16 @@ def profile():
 
     if request.method == 'POST':
         data = request.form
+        action = data.get('action')
 
         try:
-            if 'change_username' in data:
+            if action == 'change_username':
                 new_username = data.get('new_username', '').strip()
                 change_username(username, new_username)
                 session['username'] = new_username
-                username = new_username  # keep it consistent
+                username = new_username
 
-            if 'change_password' in data:
+            elif action == 'change_password':
                 old_pass = data.get('old_password', '').strip()
                 new_pass = data.get('new_password', '').strip()
                 change_password(username, old_pass, new_pass)
