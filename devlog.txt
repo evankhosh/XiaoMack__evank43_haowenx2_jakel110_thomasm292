@@ -76,3 +76,10 @@ jakeL -- 2026-1-15 21:49
 QUIZ AND FLASHCARD GAMES
 - finished games logic
 
+evanK -- 2026-1-15 11:47
+MATCHPAIR AND FLASHCARD REVIEW
+- wrote HTML page for match pair game and CSS styling
+- wrote JavaScript to control the match pair game
+- updated flashcard review to show one flashcard at a time and be able to cycle through the set
+- fixed errors with adding titles to users' flashcard sets
+
