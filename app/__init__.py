@@ -89,7 +89,7 @@ def home():
 
         if 'title' in data:
             session['title'] = data['title']
-            add_points(session['username'])
+            add_points(session['username'], len(get_flashcard_content(data['title'])))
 
             return redirect(url_for("flashcards"))
 
@@ -219,6 +219,12 @@ def profile():
                 old_pass = data.get('old_password', '').strip()
                 new_pass = data.get('new_password', '').strip()
                 change_password(username, old_pass, new_pass)
+
+            elif action == 'review':
+                title = data.get('title', '').strip()
+                if title:
+                    session['title'] = title
+                    return redirect(url_for('flashcards'))
 
         except ValueError as e:
             error = str(e)

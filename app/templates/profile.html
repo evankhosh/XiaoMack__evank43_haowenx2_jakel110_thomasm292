@@ -46,7 +46,6 @@
               <h5 class="m-0">Your Flashcards</h5>
             </div>
 
-            <form id="review" method="POST" action="/profile"> </form>
             <div class="card-body">
               {% if flashcards|length == 0 %}
                 <p class="text-muted m-0">No flashcards yet. Go to <a href="/create">Create</a> to make one.</p>
@@ -55,7 +54,10 @@
                   {% for title in flashcards %}
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                       <span>{{ title }}</span>
-                      <button type="submit" form="review" name="title" value="{{ title }}" class="btn btn-dark w-100"> Review! </button>
+                      <form method="POST" action="/profile" class="d-inline-flex" style="width: auto;">
+                        <input type="hidden" name="action" value="review" />
+                        <button type="submit" name="title" value="{{ title }}" class="btn btn-dark"> Review! </button>
+                      </form>
                     </li>
                   {% endfor %}
                 </ul>

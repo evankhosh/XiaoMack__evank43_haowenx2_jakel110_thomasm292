@@ -18,8 +18,8 @@ def create_user_info():
         CREATE TABLE IF NOT EXISTS user_info (
             username TEXT PRIMARY KEY NOT NULL,
             password TEXT NOT NULL,
-            points INTEGER,
-            flashcards TEXT
+            points INTEGER NOT NULL,
+            flashcards TEXT NOT NULL
         )"""
     )
 
@@ -60,8 +60,13 @@ def get_points(username):
 
 def get_user_flashcards(username):
     # titles are stored as text; split the string (delimiter = %SPLIT%)
-    # cut the first item, which is 'None'
-    return get_field('user_info', 'username', username, 'flashcards').split('%SPLIT%')
+    flashcards = str(get_field('user_info', 'username', username, 'flashcards')).split('%SPLIT%')
+    nonempty_flashcards = []
+
+    for flashcard in flashcards:
+        if flashcard != "" and flashcard is not None:
+            nonempty_flashcards.append(flashcard)
+    return nonempty_flashcards
 
 
 #----------USERINFO-MUTATORS----------#
@@ -83,8 +88,8 @@ def register_user(username, password):
     password = password.encode('utf-8')
     password = str(hashlib.sha256(password).hexdigest())
 
-    command = 'INSERT INTO user_info VALUES (?, ?, NULL, ?)'
-    vars = (username, password, 0)
+    command = 'INSERT INTO user_info VALUES (?, ?, ?, ?)'
+    vars = (username, password, 0, "")
     c.execute(command, vars)
 
     db.commit()
@@ -162,7 +167,10 @@ def add_points(username, points):
 def add_flashcards(flashcard_name, creator_username):
 
     other_flashcards = get_field('user_info', 'username', creator_username, 'flashcards')
-    flashcards = other_flashcards + "%SPLIT%" + flashcard_name
+    if (other_flashcards == "" or other_flashcards is None):
+        flashcards = flashcard_name
+    else:
+        flashcards = other_flashcards + "%SPLIT%" + flashcard_name
 
     DB_FILE="data.db"
     db = sqlite3.connect(DB_FILE)
@@ -175,8 +183,6 @@ def add_flashcards(flashcard_name, creator_username):
 
     db.commit()
     db.close()
-
-    return blog_id
 
 
 #----------USERINFO-HELPERS----------#
@@ -294,8 +300,9 @@ def new_flashcard(title, flashcard_content, creator):
 
     db.commit()
     db.close()
-
-    return title
+    
+    # Add the flashcard title to the user's flashcard list
+    add_flashcards(title, creator)
 
 
 #----------FLASHCARDS-HELPERS----------#
